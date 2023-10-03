@@ -14,7 +14,7 @@ import java.util.List;
 @Repository
 public class UserDaoImp implements UserDao {
 
-    private SessionFactory sessionFactory;
+    private final SessionFactory sessionFactory;
 
     @Autowired
     public UserDaoImp(SessionFactory sessionFactory) {
@@ -28,15 +28,17 @@ public class UserDaoImp implements UserDao {
 
     @Override
     public List<User> listUsers() {
-        TypedQuery<User> query = sessionFactory.getCurrentSession().createQuery("from User");
+        String hqlListUsers = "from User";
+
+        TypedQuery<User> query = sessionFactory.getCurrentSession().createQuery(hqlListUsers, User.class);
         return query.getResultList();
     }
 
     @Override
     public User findUserByCar(Car car) {
-        String hql = "from User as user where user.car.model=:carModel and user.car.series=:carSeries";
+        String hqlFindUserByCar = "from User as user where user.car.model=:carModel and user.car.series=:carSeries";
 
-        TypedQuery<User> query = sessionFactory.getCurrentSession().createQuery(hql)
+        TypedQuery<User> query = sessionFactory.getCurrentSession().createQuery(hqlFindUserByCar, User.class)
                 .setParameter("carModel", car.getModel())
                 .setParameter("carSeries", car.getSeries());
 
