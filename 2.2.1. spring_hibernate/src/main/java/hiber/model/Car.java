@@ -1,7 +1,5 @@
 package hiber.model;
 
-import org.springframework.stereotype.Component;
-
 import javax.persistence.*;
 
 @Entity
